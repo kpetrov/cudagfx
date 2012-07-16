@@ -1,10 +1,10 @@
+#include "math.h"
 #include "cudaglobal.h"
 #include "global.h"
 #include "complex.h"
 #include "stdlib.h"
 #include "stdio.h"
 #include "su3manip.h"
-#include <math.h>
 #include "rngs.h"
 
 void su3zero(su3* M){
@@ -386,7 +386,7 @@ void from8tosu3_trafo(su3* g, dev_su3_2v* h2d){
   g[i][0][2].im = gfin2.y;  
  
   p1.re = gfin.x*gfin.x + gfin.y*gfin.y + gfin2.x*gfin2.x + gfin2.y*gfin2.y; // use later on
-  one_over_N = rsqrt(p1.re); //reciprocal sqrt
+  one_over_N = 1./sqrt(p1.re); //reciprocal sqrt
 
 
     gfin = h2d[4*i+2]; 
