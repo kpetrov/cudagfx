@@ -15,7 +15,9 @@
 #include <time.h>
 #include <assert.h>
 #include "dev_su3.h"
-
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 extern "C" {
  #include "complex.h"
  #include "gauge_io.h"
@@ -579,16 +581,17 @@ void finalize_thermalization(){
 
 void intro(){
   fprintf(stdout, "\n");
-  fprintf(stdout, "########       This is cuda_GF                       ########\n");
+  fprintf(stdout, "########       This is cudagfx https://github.com/kpetrov/cudagfx                       ########\n");
   fprintf(stdout, "########       a program to fix lattice Landau gauge ########\n");
-  fprintf(stdout, "########       Copyright: Florian Burger             ########\n\n\n");
-  
+  fprintf(stdout, "########       original code: Florian Burger             ########\n\n\n");
+    fprintf(stdout, "########      updated and maintained: Konstantin Petrov const.petrov@gmail.com             ########\n\n\n");
+
 }
 
 
 void usage() {
   fprintf(stdout, "Code to compute Landau gauge on gauge field\n");
-  fprintf(stdout, "Usage:   cudagaugefix -i [inputfile] [gaugefile]\n");
+  fprintf(stdout, "Usage:   cudagaugefix -i [inputfile] -f [gaugefile]\n");
   exit(0);
 }
 
@@ -619,12 +622,11 @@ int main(int argc, char *argv[]){
   char gaugefilename[100];
   char fixedgaugename[100];
 
-if ((argc != 4) && (argc != 3)){
-    // usage();
-} 
+
 
 intro();
-gfDEVICE=0;
+gfDEVICE=0; //by default, use card number 0
+
 while ((c = getopt(argc, argv, "h?:i:d:f:")) != -1) {
       switch (c) {
           case 'i':
@@ -666,16 +668,16 @@ printf("set device to %d\n", deVice);
   g_gf = (su3*) malloc(4*VOLUME*sizeof(su3));
   trafo1 = (su3*) malloc(VOLUME*sizeof(su3));
   trafo2 = (su3*) malloc(VOLUME*sizeof(su3));  
-     read_gf_ildg(g_gf, &(gaugefilename[0]));
+  if ( read_gf_ildg(g_gf, &(gaugefilename[0]))!=0)
+  {printf("Error reading configuration from %s\n",&(gaugefilename[0]) );
+      exit(1);
+  }
 
-  // if(argc>2){
-//    strcpy ( &(gaugefilename[0])  , argv[argc+1] );
-//    strcpy ( &(fixedgaugename[0])  , argv[argc+1] );
-//    strcat ( &(fixedgaugename[0])  , "_landau" );  
-//    printf("The gaugefield file is: %s\n", &(gaugefilename[0]));  
-//    read_gf_ildg(g_gf, &(gaugefilename[0]));
-//   } 
-  
+  struct stat st;
+  if(stat(&(fixedgaugename[0]),&st) == 0)
+  {printf(" output file %s is present, exiting...\n", &(fixedgaugename[0]));
+      exit (-1);
+  }
   
  
   printf("Setting random seed to %d\n", randseed);

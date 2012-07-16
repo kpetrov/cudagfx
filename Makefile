@@ -1,21 +1,20 @@
-CUDACC = nvcc
+CUDA_HOME= /phn/cuda01a/cuda
+CUDACC = $(CUDA_HOME)/bin/nvcc
 CC = gcc
 LEX=flex
 #limedir = ~/codepackages/c-lime/build/lib
 limedir = /mnt/data/kpetrov/QUDA/lib
-
 headers =  global.h 
 objects =   complex.o gauge_io.o spinor_io.o rngs.o cksum.o su3manip.o observables.o cudagaugefix.o read_input.o 
- 
 flags = -gencode=arch=compute_20,code=sm_20 -ftz=false -prec-div=false -prec-sqrt=false
         #-arch=sm_20 -ftz=false -prec-div=false -prec-sqrt=false
         #-arch=sm_13
         #
         #-gencode=arch=compute_20,code=sm_20
         #-gencode=arch=compute_20,code=compute_20
-        
 includes = -I //mnt/data/kpetrov/QUDA/include
-libs =    -L /usr/local/cuda/lib64 -lcuda -lcudart -lcublas -L $(limedir) -llime
+libs =  -lcuda -lcudart -lcublas -L $(limedir) -llime -lm
+
 lime = $(limedir)lime_header.o $(limedir)lime_reader.o $(limedir)lime_utils.o $(limedir)lime_writer.o $(limedir)lime_fseeko.o
 linkobjects =
 
