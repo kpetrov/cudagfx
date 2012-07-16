@@ -1,0 +1,39 @@
+# input file for GPU gauge fixing
+
+
+#T = 16 
+#L = 8
+
+#T = 48
+#L = 24
+
+T=48
+L=24
+
+RandSeed = 351
+
+
+#BeginTHERMInit 
+#  Nsweep = 20000
+#  beta = 6.0
+#  ckinterval = 1
+#  start = cold
+#EndTHERMInit
+
+
+BeginORXInit 
+  eps = 1.0e-15
+  ckinterval = 50
+  maxit = 20000
+EndORXInit
+
+
+BeginSAInit 
+  Tmin = 1.0e-4
+  Tmax = 0.5
+  ckinterval = 100
+  Nstep = 5000
+  expo = -1.0
+EndSAInit
+
+

@@ -1,0 +1,19 @@
+(*gf)[0][0].re c00re
+(*gf)[0][0].im c00im
+(*gf)[0][1].re c01re
+(*gf)[0][1].im c01im
+(*gf)[0][2].re c02re
+(*gf)[0][2].im c02im
+(*gf)[1][0].re c10re
+(*gf)[1][0].im c10im
+(*gf)[1][1].re c11re
+(*gf)[1][1].im c11im
+(*gf)[1][2].re c12re
+(*gf)[1][2].im c12im
+(*gf)[2][0].re c20re
+(*gf)[2][0].im c20im
+(*gf)[2][1].re c21re
+(*gf)[2][1].im c21im
+(*gf)[2][2].re c22re
+(*gf)[2][2].im c22im
+
